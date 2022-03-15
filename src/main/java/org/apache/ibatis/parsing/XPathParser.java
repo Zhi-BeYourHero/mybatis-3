@@ -46,10 +46,29 @@ import org.xml.sax.SAXParseException;
  */
 public class XPathParser {
 
+  /**
+   * XML Document对象, XML 被解析后，生成的 org.w3c.dom.Document 对象。
+   */
   private final Document document;
+
+  /**
+   * 是否要校验: 是否校验 XML 。一般情况下，值为 true
+   */
   private boolean validation;
+
+  /**
+   * XML 实体解析器
+   */
   private EntityResolver entityResolver;
+
+  /**
+   * 变量 Properties 对象
+   */
   private Properties variables;
+
+  /**
+   * Java XPath 对象
+   */
   private XPath xpath;
 
   public XPathParser(String xml) {
