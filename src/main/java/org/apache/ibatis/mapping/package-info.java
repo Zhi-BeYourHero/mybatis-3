@@ -15,5 +15,6 @@
  */
 /**
  * Base package for mapping.
+ * 核心处理层-映射
  */
 package org.apache.ibatis.mapping;

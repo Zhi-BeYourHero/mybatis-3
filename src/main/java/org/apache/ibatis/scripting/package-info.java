@@ -15,5 +15,6 @@
  */
 /**
  * Base package for languages.
+ * SQL 解析
  */
 package org.apache.ibatis.scripting;
