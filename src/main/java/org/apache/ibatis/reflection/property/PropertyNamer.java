@@ -28,6 +28,9 @@ public final class PropertyNamer {
     // Prevent Instantiation of Static Class
   }
 
+  /**
+   * 获取方法属性名
+   */
   public static String methodToProperty(String name) {
     if (name.startsWith("is")) {
       name = name.substring(2);
@@ -38,6 +41,7 @@ public final class PropertyNamer {
     }
 
     if (name.length() == 1 || (name.length() > 1 && !Character.isUpperCase(name.charAt(1)))) {
+      // 首字母转小写
       name = name.substring(0, 1).toLowerCase(Locale.ENGLISH) + name.substring(1);
     }
 
@@ -49,6 +53,7 @@ public final class PropertyNamer {
   }
 
   public static boolean isGetter(String name) {
+    // 以 get 和 is 方法名开头，说明是 getting 方法
     return (name.startsWith("get") && name.length() > 3) || (name.startsWith("is") && name.length() > 2);
   }
 
