@@ -28,7 +28,7 @@ import org.apache.ibatis.reflection.property.PropertyTokenizer;
  * @author Clinton Begin
  */
 public class MapWrapper extends BaseWrapper {
-
+  // object 变成了 map
   private final Map<String, Object> map;
 
   public MapWrapper(MetaObject metaObject, Map<String, Object> map) {
@@ -52,6 +52,7 @@ public class MapWrapper extends BaseWrapper {
       Object collection = resolveCollection(prop, map);
       setCollectionValue(prop, collection, value);
     } else {
+      // 属性的操作变成了
       map.put(prop.getName(), value);
     }
   }

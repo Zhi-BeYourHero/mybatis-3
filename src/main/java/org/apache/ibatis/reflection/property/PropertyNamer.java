@@ -29,13 +29,17 @@ public final class PropertyNamer {
   }
 
   /**
-   * 获取方法属性名
+   * 根据方法名，获得对应的属性名
+   *
+   * @param name 方法名
+   * @return 属性名
    */
   public static String methodToProperty(String name) {
     if (name.startsWith("is")) {
       name = name.substring(2);
     } else if (name.startsWith("get") || name.startsWith("set")) {
       name = name.substring(3);
+      // 抛出 ReflectionException 异常，因为只能处理 is、set、get 方法
     } else {
       throw new ReflectionException("Error parsing property name '" + name + "'.  Didn't start with 'is', 'get' or 'set'.");
     }
