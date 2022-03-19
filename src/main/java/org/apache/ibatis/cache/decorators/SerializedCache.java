@@ -30,10 +30,14 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.io.SerialFilterChecker;
 
 /**
+ * 实现 Cache 接口， 支持序列化值的 Cache 实现类
  * @author Clinton Begin
  */
 public class SerializedCache implements Cache {
 
+  /**
+   * 装饰的 Cache 对象
+   */
   private final Cache delegate;
 
   public SerializedCache(Cache delegate) {
@@ -53,7 +57,7 @@ public class SerializedCache implements Cache {
   @Override
   public void putObject(Object key, Object object) {
     if (object == null || object instanceof Serializable) {
-      delegate.putObject(key, serialize((Serializable) object));
+      delegate.putObject(key, serialize((Serializable) object)); // 序列化
     } else {
       throw new CacheException("SharedCache failed to make a copy of a non-serializable object: " + object);
     }
@@ -62,7 +66,7 @@ public class SerializedCache implements Cache {
   @Override
   public Object getObject(Object key) {
     Object object = delegate.getObject(key);
-    return object == null ? null : deserialize((byte[]) object);
+    return object == null ? null : deserialize((byte[]) object); // 反序列化
   }
 
   @Override
