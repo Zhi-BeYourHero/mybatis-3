@@ -75,6 +75,7 @@ public class ManagedTransaction implements Transaction {
 
   @Override
   public void close() throws SQLException {
+    // 如果开启关闭连接功能，则关闭连接
     if (this.closeConnection && this.connection != null) {
       if (log.isDebugEnabled()) {
         log.debug("Closing JDBC Connection [" + this.connection + "]");
