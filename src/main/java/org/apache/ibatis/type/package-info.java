@@ -15,5 +15,10 @@
  */
 /**
  * Type handlers.
+ * 1⃣️ MyBatis 为简化配置文件提供了别名机制， 该机制是类型转换模块的主要功能之一
+ * 2⃣️ 类型转换模块的另一个功能是实现JDBC类型和Java类型之间的转换， 该功能在为SQL语句绑定
+ * 实参以及映射查询结果集时都会涉及：
+ * - 在为SQL语句绑定实参时，会将数据由Java类型转换成JDBC类型
+ * - 而在映射结果集时，会将数据由JDBC类型转换成Java类型
  */
 package org.apache.ibatis.type;
