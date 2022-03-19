@@ -37,26 +37,54 @@ import org.apache.ibatis.io.Resources;
  * UNPOOLED– 这个数据源的实现只是每次被请求时打开和关闭连接。
  * 虽然有点慢，但对于在数据库连接可用性方面没有太高要求的简单应用程序来说，是一个很好的选择。
  * 不同的数据库在性能方面的表现也是不一样的，对于某些数据库来说，使用连接池并不重要，这个配置就很适合这种情形。
- *
+ * * {@link javax.sql.DataSource} 是个神奇的接口， 在其上可以衍生出数据库连接池，分库分表和读写分离等功能
  * @author Clinton Begin
  * @author Eduardo Macarron
  */
 public class UnpooledDataSource implements DataSource {
-
+  /**
+   * Driver 类加载器
+   */
   private ClassLoader driverClassLoader;
+  /**
+   * Driver 属性
+   */
   private Properties driverProperties;
+  /**
+   * 已注册的 Driver 映射
+   *
+   * KEY：Driver 类名
+   * VALUE：Driver 对象
+   */
   private static Map<String, Driver> registeredDrivers = new ConcurrentHashMap<>();
-
+  /**
+   * Driver 类名
+   */
   private String driver;
+  /**
+   * 数据库 URL
+   */
   private String url;
+  /**
+   * 数据库用户名
+   */
   private String username;
+  /**
+   * 数据库密码
+   */
   private String password;
-
+  /**
+   * 是否自动提交事务
+   */
   private Boolean autoCommit;
+  /**
+   * 默认事务隔离级别
+   */
   private Integer defaultTransactionIsolationLevel;
   private Integer defaultNetworkTimeout;
 
   static {
+    // 初始化 registeredDrivers
     Enumeration<Driver> drivers = DriverManager.getDrivers();
     while (drivers.hasMoreElements()) {
       Driver driver = drivers.nextElement();
@@ -225,25 +253,37 @@ public class UnpooledDataSource implements DataSource {
   }
 
   private Connection doGetConnection(Properties properties) throws SQLException {
+    // <1> 初始化 Driver
     initializeDriver();
+    // <2> 获得 Connection 对象
     Connection connection = DriverManager.getConnection(url, properties);
+    // <3> 配置 Connection 对象
     configureConnection(connection);
     return connection;
   }
 
-  private synchronized void initializeDriver() throws SQLException {
+  /**
+   * <1> 处，synchronized 锁的粒度太大，
+   * 可以减小到基于 registeredDrivers 来同步，并且很多时候，不需要加锁。
+   */
+  private synchronized void initializeDriver() throws SQLException {// <1>
+    // 判断 registeredDrivers 是否已经存在该 driver ，若不存在，进行初始化
     if (!registeredDrivers.containsKey(driver)) {
       Class<?> driverType;
       try {
+        // <2> 获得 driver 类，实际上，就是我们常见的 "Class.forName("com.mysql.jdbc.Driver")" 。
         if (driverClassLoader != null) {
           driverType = Class.forName(driver, true, driverClassLoader);
         } else {
           driverType = Resources.classForName(driver);
         }
+        // <3> 创建 Driver 对象
         // DriverManager requires the driver to be loaded via the system ClassLoader.
         // http://www.kfu.com/~nsayer/Java/dyn-jdbc.html
         Driver driverInstance = (Driver) driverType.getDeclaredConstructor().newInstance();
+        // 创建 DriverProxy 对象，并注册到 DriverManager 中
         DriverManager.registerDriver(new DriverProxy(driverInstance));
+        // 添加到 registeredDrivers 中
         registeredDrivers.put(driver, driverInstance);
       } catch (Exception e) {
         throw new SQLException("Error setting driver on UnpooledDataSource. Cause: " + e);
@@ -255,9 +295,11 @@ public class UnpooledDataSource implements DataSource {
     if (defaultNetworkTimeout != null) {
       conn.setNetworkTimeout(Executors.newSingleThreadExecutor(), defaultNetworkTimeout);
     }
+    // 设置自动提交
     if (autoCommit != null && autoCommit != conn.getAutoCommit()) {
       conn.setAutoCommit(autoCommit);
     }
+    // 设置事务隔离级别
     if (defaultTransactionIsolationLevel != null) {
       conn.setTransactionIsolation(defaultTransactionIsolationLevel);
     }
