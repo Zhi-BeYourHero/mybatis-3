@@ -32,9 +32,13 @@ import java.util.Properties;
  */
 public class Resources {
 
+  /**
+   * ClassLoaderWrapper 对象
+   */
   private static ClassLoaderWrapper classLoaderWrapper = new ClassLoaderWrapper();
 
   /**
+   * 字符集
    * Charset to use when calling getResourceAsReader.
    * null means use the system default.
    */
@@ -102,7 +106,7 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a Stream object
-   *
+   * 静态方法，获得指定资源的 InputStream
    * @param loader   The classloader used to fetch the resource
    * @param resource The resource to find
    * @return The resource
@@ -149,7 +153,7 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a Reader object
-   *
+   * 获得指定资源的 Reader
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
@@ -214,6 +218,7 @@ public class Resources {
    */
   public static InputStream getUrlAsStream(String urlString) throws IOException {
     URL url = new URL(urlString);
+    // 打开 URLConnection
     URLConnection conn = url.openConnection();
     return conn.getInputStream();
   }

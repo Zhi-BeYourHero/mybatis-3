@@ -29,7 +29,7 @@ import org.apache.ibatis.logging.LogFactory;
 
 /**
  * Provides a very simple API for accessing resources within an application server.
- *
+ * 虚拟文件系统( Virtual File System )抽象类，用来查找指定路径下的的文件们。
  * @author Ben Gunter
  */
 public abstract class VFS {
@@ -192,7 +192,7 @@ public abstract class VFS {
 
   /**
    * Return true if the {@link VFS} implementation is valid for the current environment.
-   *
+   * 抽象方法，判断是否为合法的 VFS 。
    * @return true, if is valid
    */
   public abstract boolean isValid();
