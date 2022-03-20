@@ -23,7 +23,8 @@ import java.lang.annotation.Target;
 
 /**
  * The annotation that reference a cache.
- *
+ * 指向指定命名空间的注解
+ * 对应XML标签为<cache-ref/>
  * <p>If you use this annotation, should be specified either {@link #value()} or {@link #name()} attribute.
  *
  * <p>
@@ -41,19 +42,19 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target(ElementType.TYPE) // 类型
 public @interface CacheNamespaceRef {
 
   /**
    * Returns the namespace type to reference a cache (the namespace name become a FQCN of specified type).
-   *
+   * 见 {@link org.apache.ibatis.builder.annotation.MapperAnnotationBuilder#parseCacheRef()} 方法
    * @return the namespace type to reference a cache
    */
   Class<?> value() default void.class;
 
   /**
    * Returns the namespace name to reference a cache.
-   *
+   * 指向的命名空间
    * @return the namespace name
    * @since 3.4.2
    */

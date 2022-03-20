@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * The annotation that be grouping mapping definitions for property.
- *
+ * 对应 XML 标签为 <resultMap />
  * <p>
  * <b>How to use:</b>
  *

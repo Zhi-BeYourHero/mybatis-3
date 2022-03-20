@@ -26,7 +26,7 @@ import org.apache.ibatis.mapping.StatementType;
 
 /**
  * The annotation that specify an SQL for retrieving a key value.
- *
+ * 通过SQL语句获取主键的注解
  * <p>
  * <b>How to use:</b>
  *
@@ -47,7 +47,7 @@ import org.apache.ibatis.mapping.StatementType;
 public @interface SelectKey {
   /**
    * Returns an SQL for retrieving a key value.
-   *
+   * 语句
    * @return an SQL for retrieving a key value
    */
   String[] statement();
@@ -57,7 +57,7 @@ public @interface SelectKey {
    * <p>
    * If you specify multiple property, please separate using comma(',').
    * </p>
-   *
+   * Java对象的属性
    * @return property names that separate with comma(',')
    */
   String keyProperty();
@@ -67,7 +67,7 @@ public @interface SelectKey {
    * <p>
    * If you specify multiple column, please separate using comma(',').
    * </p>
-   *
+   * 数据库字段
    * @return column names that separate with comma(',')
    */
   String keyColumn() default "";
@@ -88,7 +88,7 @@ public @interface SelectKey {
 
   /**
    * Returns the statement type to use.
-   *
+   * {@link #statement()} 的类型
    * @return the statement type
    */
   StatementType statementType() default StatementType.PREPARED;

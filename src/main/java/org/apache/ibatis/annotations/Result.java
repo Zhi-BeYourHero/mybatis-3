@@ -39,21 +39,21 @@ import org.apache.ibatis.type.UnknownTypeHandler;
 public @interface Result {
   /**
    * Returns whether id column or not.
-   *
+   * 是否是 ID 字段
    * @return {@code true} if id column; {@code false} if otherwise
    */
   boolean id() default false;
 
   /**
    * Return the column name(or column label) to map to this argument.
-   *
+   * 数据库的字段
    * @return the column name(or column label)
    */
   String column() default "";
 
   /**
    * Returns the property name for applying this mapping.
-   *
+   * Java 类中的属性
    * @return the property name
    */
   String property() default "";
@@ -74,7 +74,7 @@ public @interface Result {
 
   /**
    * Returns the {@link TypeHandler} type for retrieving a column value from result set.
-   *
+   * 使用的 TypeHandler 处理器
    * @return the {@link TypeHandler} type
    */
   Class<? extends TypeHandler> typeHandler() default UnknownTypeHandler.class;

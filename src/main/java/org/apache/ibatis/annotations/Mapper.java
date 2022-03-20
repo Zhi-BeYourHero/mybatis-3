@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 
 /**
  * Marker interface for MyBatis mappers.
- *
+ * 在接口DAO类上加上这个注解后， 会在编译时生成相应的实现类
  * <p>
  * <b>How to use:</b>
  *
